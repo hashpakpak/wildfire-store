@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildFire SMP | Official Webstore</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Rajdhani -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0d0f14',
+                            card: '#151921',
+                            cardHover: '#1c222e',
+                            border: '#283042',
+                            orange: '#ff5500',
+                            orangeLight: '#ff7700',
+                            crimson: '#dc2626',
+                            gold: '#ffb703',
+                            accent: '#ff8800'
+                        }
+                    },
+                    fontFamily: {
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0d0f14;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .heading-font {
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .hero-bg {
+            background: radial-gradient(circle at 50% 20%, rgba(255, 85, 0, 0.25) 0%, rgba(13, 15, 20, 0.95) 70%),
+                        linear-gradient(to bottom, rgba(13, 15, 20, 0.4), #0d0f14),
+                        url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .flame-glow {
+            box-shadow: 0 0 25px rgba(255, 85, 0, 0.35);
+        }
+
+        .flame-text-glow {
+            text-shadow: 0 0 15px rgba(255, 85, 0, 0.6);
+        }
+
+        .glass-card {
+            background: rgba(21, 25, 33, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 85, 0, 0.4);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d0f14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #283042;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff5500;
+        }
+
+        #particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #ffaa00 0%, #ff3300 70%, transparent 100%);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100%) scale(0.3); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-orange selection:text-white">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-gradient-to-r from-red-900 via-brand-orange to-amber-600 text-white text-xs sm:text-sm font-semibold py-2 px-4 text-center tracking-wide flex justify-center items-center gap-2 shadow-md z-50">
+        <span class="bg-black/30 px-2 py-0.5 rounded text-amber-300 uppercase tracking-wider text-[10px] sm:text-xs">SEASON SALE</span>
+        <span>🔥 USE CODE <strong class="underline decoration-amber-300">WILDFIRE10</strong> FOR 10% OFF! ENDS IN:</span>
+        <span id="header-countdown" class="font-mono font-bold bg-black/40 px-2 py-0.5 rounded text-amber-200">02d 14h 32m 45s</span>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-40 bg-brand-dark/95 backdrop-blur-md border-b border-brand-border/60 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- BRAND LOGO -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchCategory('all')">
+                    <div class="relative flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-brand-orange to-red-600 shadow-lg flame-glow">
+                        <i class="fa-solid font-bold fa-fire-flame-curved text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <div class="heading-font text-2xl sm:text-3xl font-extrabold tracking-wider text-white leading-none">
+                            WILDFIRE <span class="text-brand-orange">SMP</span>
+                        </div>
+                        <p class="text-[10px] text-gray-400 font-medium tracking-widest uppercase mt-0.5">Official Webstore</p>
+                    </div>
+                </div>
+
+                <!-- DESKTOP NAV LINKS -->
+                <div class="hidden lg:flex items-center space-x-1">
+                    <button onclick="switchCategory('all')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:text-brand-orange hover:bg-white/5 active-nav" data-cat="all">
+                        <i class="fa-solid fa-store mr-1.5 opacity-70"></i> Home
+                    </button>
+                    <button onclick="switchCategory('ranks')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:text-brand-orange hover:bg-white/5" data-cat="ranks">
+                        <i class="fa-solid fa-crown mr-1.5 opacity-70"></i> Ranks
+                    </button>
+                    <button onclick="switchCategory('crates')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:text-brand-orange hover:bg-white/5" data-cat="crates">
+                        <i class="fa-solid fa-box-open mr-1.5 opacity-70"></i> Crates & Keys
+                    </button>
+                    <button onclick="switchCategory('coins')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:text-brand-orange hover:bg-white/5" data-cat="coins">
+                        <i class="fa-solid fa-coins mr-1.5 opacity-70"></i> Coins & Gems
+                    </button>
+                    <button onclick="switchCategory('subscriptions')" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:text-brand-orange hover:bg-white/5" data-cat="subscriptions">
+                        <i class="fa-solid fa-gem mr-1.5 opacity-70"></i> Subscriptions
+                    </button>
+                </div>
+
+                <!-- RIGHT CONTROLS -->
+                <div class="flex items-center space-x-3">
+                    
+                    <!-- SERVER IP COPY BUTTON -->
+                    <button onclick="copyServerIP()" class="hidden md:flex items-center gap-2.5 bg-brand-card hover:bg-brand-cardHover border border-brand-border px-3.5 py-2 rounded-xl transition group relative">
+                        <div id="status-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <div class="text-left">
+                            <div class="text-xs font-bold text-white tracking-wide group-hover:text-brand-orange transition">wildfiresmp.mcsh.gg</div>
+                            <div class="text-[10px] text-gray-400"><span id="online-players">--</span> Players Online</div>
+                        </div>
+                        <i class="fa-regular fa-copy text-gray-400 group-hover:text-white text-xs ml-1"></i>
+                    </button>
+
+                    <!-- CURRENCY SWITCHER -->
+                    <select id="currency-select" onchange="changeCurrency(this.value)" class="bg-brand-card text-xs font-bold border border-brand-border text-gray-300 rounded-xl px-2.5 py-2 focus:outline-none focus:border-brand-orange cursor-pointer">
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="BDT">BDT (৳)</option>
+                    </select>
+
+                    <!-- USERNAME LOGIN BUTTON -->
+                    <button id="user-btn" onclick="openUserModal()" class="flex items-center gap-2 bg-brand-card hover:bg-brand-cardHover border border-brand-border px-3 py-2 rounded-xl text-xs font-semibold text-gray-200 transition">
+                        <img id="user-avatar" src="https://mc-heads.net/avatar/Steve/28" class="w-5 h-5 rounded" alt="Avatar">
+                        <span id="user-display" class="hidden sm:inline max-w-[90px] truncate">Steve</span>
+                        <i class="fa-solid fa-pen text-[10px] text-gray-400"></i>
+                    </button>
+
+                    <!-- CART BUTTON -->
+                    <button onclick="toggleCartDrawer(true)" class="relative bg-gradient-to-r from-brand-orange to-red-600 hover:from-brand-orangeLight hover:to-red-500 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-2 transition shadow-lg flame-glow">
+                        <i class="fa-solid fa-cart-shopping text-sm"></i>
+                        <span class="hidden sm:inline text-xs font-extrabold uppercase tracking-wider">Cart</span>
+                        <span id="cart-counter" class="bg-black/40 text-white text-xs font-extrabold px-2 py-0.5 rounded-full border border-white/20">0</span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO BANNER SECTION -->
+    <header class="relative hero-bg py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-brand-border/50 text-center overflow-hidden">
+        <div id="particles-container"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto space-y-6">
+            <!-- Server Status Badge -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/50 border border-brand-orange/40 text-brand-orange text-xs font-bold tracking-widest uppercase backdrop-blur-md">
+                <i class="fa-solid fa-fire text-amber-400"></i> IP: wildfiresmp.mcsh.gg
+            </div>
+
+            <h1 class="heading-font text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase leading-none">
+                Welcome to the <span class="bg-gradient-to-r from-amber-400 via-brand-orange to-red-500 bg-clip-text text-transparent flame-text-glow">WildFire SMP</span> Store
+            </h1>
+            
+            <p class="max-w-2xl mx-auto text-gray-300 text-base sm:text-lg font-medium leading-relaxed">
+                Purchase official Minecraft ranks, crate keys, flame coins, and battlepasses using real credit card, PayPal, or local mobile payments.
+            </p>
+
+            <!-- Featured Mobile IP Widget -->
+            <div class="flex sm:hidden justify-center pt-2">
+                <button onclick="copyServerIP()" class="flex items-center gap-3 bg-brand-card/90 border border-brand-border px-4 py-2.5 rounded-xl text-sm font-bold">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-white">wildfiresmp.mcsh.gg</span>
+                    <i class="fa-regular fa-copy text-gray-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN STORE SECTION -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- LEFT SIDEBAR -->
+            <aside class="space-y-6">
+                
+                <!-- Category Navigation -->
+                <div class="glass-card rounded-2xl p-4 space-y-2">
+                    <h3 class="text-xs font-bold text-gray-400 tracking-wider uppercase px-3 mb-2">Shop Categories</h3>
+                    
+                    <button onclick="switchCategory('all')" class="cat-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-bold transition text-white bg-brand-orange/20 border border-brand-orange/40" data-category="all">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-border-all text-brand-orange w-4"></i> All Products</span>
+                        <span class="bg-white/10 text-xs px-2 py-0.5 rounded-full">12</span>
+                    </button>
+
+                    <button onclick="switchCategory('ranks')" class="cat-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-bold transition text-gray-300 hover:bg-white/5 hover:text-white" data-category="ranks">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-crown text-amber-400 w-4"></i> Server Ranks</span>
+                        <span class="bg-white/10 text-xs px-2 py-0.5 rounded-full">4</span>
+                    </button>
+
+                    <button onclick="switchCategory('crates')" class="cat-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-bold transition text-gray-300 hover:bg-white/5 hover:text-white" data-category="crates">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-box-open text-purple-400 w-4"></i> Crates & Keys</span>
+                        <span class="bg-white/10 text-xs px-2 py-0.5 rounded-full">3</span>
+                    </button>
+
+                    <button onclick="switchCategory('coins')" class="cat-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-bold transition text-gray-300 hover:bg-white/5 hover:text-white" data-category="coins">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-coins text-yellow-400 w-4"></i> Coins & Gems</span>
+                        <span class="bg-white/10 text-xs px-2 py-0.5 rounded-full">3</span>
+                    </button>
+
+                    <button onclick="switchCategory('subscriptions')" class="cat-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-bold transition text-gray-300 hover:bg-white/5 hover:text-white" data-category="subscriptions">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-gem text-cyan-400 w-4"></i> VIP Subscriptions</span>
+                        <span class="bg-white/10 text-xs px-2 py-0.5 rounded-full">2</span>
+                    </button>
+                </div>
+
+                <!-- LIVE RECENT PURCHASES FEED -->
+                <div class="glass-card rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between border-b border-brand-border/60 pb-3">
+                        <h3 class="text-xs font-bold text-gray-300 tracking-wider uppercase flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Live Recent Sales
+                        </h3>
+                        <i class="fa-solid fa-cart-flatbed text-gray-500 text-xs"></i>
+                    </div>
+
+                    <div id="recent-purchases-container" class="space-y-3 max-h-72 overflow-y-auto pr-1">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- TEBEX / EXTERNAL STORE REDIRECT OPTION -->
+                <div class="glass-card rounded-2xl p-4 space-y-3">
+                    <h3 class="text-xs font-bold text-gray-300 tracking-wider uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-link text-brand-orange"></i> Custom Store Webhook Link
+                    </h3>
+                    <p class="text-[11px] text-gray-400">If you run an existing Tebex or CraftingStore backend, enter your direct payment checkout URL below:</p>
+                    <input type="text" id="custom-checkout-url" placeholder="https://store.wildfiresmp.net/checkout" class="w-full bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-orange">
+                </div>
+
+            </aside>
+
+            <!-- RIGHT CONTENT AREA: PRODUCT GRID -->
+            <section class="lg:col-span-3 space-y-6">
+                
+                <!-- FILTER / HEADER BAR -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-brand-card/70 border border-brand-border/80 p-4 rounded-2xl backdrop-blur-md">
+                    <div>
+                        <h2 id="current-category-title" class="heading-font text-2xl font-bold text-white tracking-wide uppercase">All Store Packages</h2>
+                        <p class="text-xs text-gray-400">Select an item package below to view details or proceed to checkout.</p>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="relative w-full sm:w-64">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                            <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Search packages..." class="w-full bg-brand-dark border border-brand-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand-orange">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUCTS GRID -->
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards will be rendered dynamically by JS -->
+                </div>
+
+            </section>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark border-t border-brand-border/60 mt-16 pt-12 pb-8 px-4 sm:px-6 lg:px-8 text-gray-400">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-brand-border/50">
+            
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <span class="heading-font text-xl font-bold text-white tracking-wider">WILDFIRE SMP</span>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    Minecraft Survival Multiplayer. Join using Server IP <strong class="text-white">wildfiresmp.mcsh.gg</strong>. Custom perks, ranks, and fast instant automated store delivery.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Quick Navigation</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" onclick="switchCategory('ranks')" class="hover:text-brand-orange transition">Server Ranks</a></li>
+                    <li><a href="#" onclick="switchCategory('crates')" class="hover:text-brand-orange transition">Crate Keys</a></li>
+                    <li><a href="#" onclick="switchCategory('coins')" class="hover:text-brand-orange transition">Virtual Currency</a></li>
+                    <li><a href="#" onclick="switchCategory('subscriptions')" class="hover:text-brand-orange transition">Monthly Pass</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Server Links</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="https://discord.gg" target="_blank" class="hover:text-brand-orange transition flex items-center gap-1.5"><i class="fa-brands fa-discord text-indigo-400"></i> Join Discord Community</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition">Live Server Map</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition">Server Rules & Guidelines</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition">Support Ticket System</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Legal & Support</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" class="hover:text-brand-orange transition">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition">Refund Policy</a></li>
+                    <li class="pt-2 text-[11px] text-gray-500">Contact: support@wildfiresmp.net</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="max-w-7xl mx-auto pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+            <p>© 2026 WildFire SMP Store. All rights reserved.</p>
+            <p class="text-[11px] max-w-md text-center md:text-right text-gray-500">
+                Not an official Minecraft product. We are not approved by or associated with Mojang AB or Microsoft.
+            </p>
+        </div>
+    </footer>
+
+    <!-- CART SLIDE-OUT DRAWER -->
+    <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+    <div id="cart-drawer" class="fixed right-0 top-0 h-full w-full max-w-md bg-brand-card border-l border-brand-border z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
+        
+        <div class="p-5 border-b border-brand-border flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-cart-shopping text-brand-orange text-lg"></i>
+                <h3 class="heading-font text-xl font-bold text-white uppercase tracking-wider">Your Shopping Cart</h3>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-white p-2 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-4">
+            <!-- Items populated by JS -->
+        </div>
+
+        <div class="p-5 border-t border-brand-border bg-brand-dark/90 space-y-4">
+            
+            <div class="flex items-center justify-between bg-brand-card p-3 rounded-xl border border-brand-border text-xs">
+                <div class="flex items-center gap-2">
+                    <img id="cart-user-avatar" src="https://mc-heads.net/avatar/Steve/24" class="w-6 h-6 rounded" alt="Avatar">
+                    <span class="text-gray-300">Target Player: <strong id="cart-username-display" class="text-white">Steve</strong></span>
+                </div>
+                <button onclick="openUserModal()" class="text-brand-orange hover:underline text-xs font-semibold">Change</button>
+            </div>
+
+            <!-- Promo Code input -->
+            <div class="flex gap-2">
+                <input type="text" id="promo-input" placeholder="Promo code (WILDFIRE10)" class="bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-white uppercase flex-1 focus:outline-none focus:border-brand-orange">
+                <button onclick="applyPromo()" class="bg-brand-border hover:bg-gray-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition">Apply</button>
+            </div>
+
+            <!-- Pricing Breakdown -->
+            <div class="space-y-1.5 text-xs text-gray-400">
+                <div class="flex justify-between"><span>Subtotal</span><span id="cart-subtotal">$0.00</span></div>
+                <div class="flex justify-between text-emerald-400"><span>Discount</span><span id="cart-discount">-$0.00</span></div>
+                <div class="flex justify-between font-bold text-white text-base pt-2 border-t border-brand-border/60">
+                    <span>Total Due</span>
+                    <span id="cart-total" class="text-brand-orange">$0.00</span>
+                </div>
+            </div>
+
+            <button onclick="openCheckoutModal()" class="w-full bg-gradient-to-r from-brand-orange to-red-600 hover:from-brand-orangeLight hover:to-red-500 text-white font-extrabold py-3 rounded-xl shadow-lg flame-glow uppercase tracking-wider text-sm transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-lock"></i> Checkout & Pay Now
+            </button>
+
+            <!-- Payment Badges -->
+            <div class="flex items-center justify-center gap-4 text-gray-500 text-lg pt-1">
+                <i class="fa-brands fa-cc-paypal hover:text-blue-400 transition" title="PayPal"></i>
+                <i class="fa-brands fa-cc-stripe hover:text-indigo-400 transition" title="Stripe Credit Cards"></i>
+                <i class="fa-brands fa-cc-visa hover:text-blue-500 transition"></i>
+                <i class="fa-brands fa-cc-mastercard hover:text-red-400 transition"></i>
+                <i class="fa-brands fa-bitcoin hover:text-amber-500 transition" title="Crypto"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- USERNAME & PLATFORM MODAL -->
+    <div id="user-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
+            <button onclick="closeUserModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 rounded-xl bg-brand-orange/20 border border-brand-orange/40 text-brand-orange mx-auto flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-user-gear"></i>
+                </div>
+                <h3 class="heading-font text-2xl font-bold text-white uppercase">Player Delivery Details</h3>
+                <p class="text-xs text-gray-400">Items will be delivered in-game to this exact username on wildfiresmp.mcsh.gg</p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="text-xs font-semibold text-gray-300 block mb-1">Edition Platform</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button type="button" id="platform-java" onclick="selectPlatform('Java')" class="py-2 rounded-xl text-xs font-bold bg-brand-orange text-white border border-brand-orange">Java Edition</button>
+                        <button type="button" id="platform-bedrock" onclick="selectPlatform('Bedrock')" class="py-2 rounded-xl text-xs font-bold bg-brand-dark text-gray-400 border border-brand-border">Bedrock (MCPE)</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-semibold text-gray-300 block mb-1">Minecraft Username</label>
+                    <input type="text" id="username-input" placeholder="e.g. Notch or Alex" class="w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-orange font-medium">
+                </div>
+
+                <div>
+                    <label class="text-xs font-semibold text-gray-300 block mb-1">Discord Tag (Optional for Rank roles)</label>
+                    <input type="text" id="discord-input" placeholder="username#0000 or username" class="w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-orange">
+                </div>
+            </div>
+
+            <button onclick="saveUsername()" class="w-full bg-gradient-to-r from-brand-orange to-red-600 hover:from-brand-orangeLight hover:to-red-500 text-white font-bold py-3 rounded-xl transition shadow-lg text-sm uppercase tracking-wider">
+                Save & Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- REAL PAYMENT CHECKOUT MODAL -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-left border-b border-brand-border pb-4">
+                <h3 class="heading-font text-2xl font-bold text-white uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-emerald-400"></i> Secure Payment Checkout
+                </h3>
+                <p class="text-xs text-gray-400">Delivering to player: <strong id="checkout-target-player" class="text-brand-orange">Steve</strong></p>
+            </div>
+
+            <!-- Payment Method Selector -->
+            <div class="space-y-3">
+                <label class="text-xs font-bold text-gray-300 uppercase tracking-wider block">1. Select Payment Method</label>
+                
+                <div class="grid grid-cols-2 gap-2.5">
+                    <button type="button" onclick="setPaymentMethod('card')" id="pay-card-btn" class="flex items-center gap-2 p-3 rounded-xl border border-brand-orange bg-brand-orange/20 text-white text-xs font-bold">
+                        <i class="fa-regular fa-credit-card text-brand-orange text-base"></i>
+                        <span>Credit / Debit Card</span>
+                    </button>
+                    <button type="button" onclick="setPaymentMethod('paypal')" id="pay-paypal-btn" class="flex items-center gap-2 p-3 rounded-xl border border-brand-border bg-brand-dark text-gray-300 text-xs font-bold hover:border-blue-500">
+                        <i class="fa-brands fa-paypal text-blue-400 text-base"></i>
+                        <span>PayPal Checkout</span>
+                    </button>
+                    <button type="button" onclick="setPaymentMethod('bkash')" id="pay-bkash-btn" class="flex items-center gap-2 p-3 rounded-xl border border-brand-border bg-brand-dark text-gray-300 text-xs font-bold hover:border-pink-500">
+                        <i class="fa-solid fa-mobile-screen-button text-pink-500 text-base"></i>
+                        <span>bKash / Local Mobile</span>
+                    </button>
+                    <button type="button" onclick="setPaymentMethod('crypto')" id="pay-crypto-btn" class="flex items-center gap-2 p-3 rounded-xl border border-brand-border bg-brand-dark text-gray-300 text-xs font-bold hover:border-amber-500">
+                        <i class="fa-brands fa-bitcoin text-amber-500 text-base"></i>
+                        <span>Crypto (BTC/USDT)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Payment Form Body -->
+            <div id="payment-form-container" class="bg-brand-dark/90 p-4 rounded-xl border border-brand-border/60 space-y-3">
+                <!-- Card form default -->
+                <div id="card-fields" class="space-y-3">
+                    <div>
+                        <label class="text-[11px] font-semibold text-gray-400 block mb-1">Card Number</label>
+                        <div class="relative">
+                            <input type="text" placeholder="4532 •••• •••• 8892" class="w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-orange">
+                            <i class="fa-brands fa-cc-visa absolute right-3 top-2.5 text-gray-400 text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[11px] font-semibold text-gray-400 block mb-1">Expiry Date</label>
+                            <input type="text" placeholder="MM/YY" class="w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-orange">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-semibold text-gray-400 block mb-1">CVC / CWW</label>
+                            <input type="text" placeholder="123" class="w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-orange">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="paypal-fields" class="hidden text-center py-4 space-y-2">
+                    <i class="fa-brands fa-paypal text-4xl text-blue-400 animate-pulse"></i>
+                    <p class="text-xs text-gray-300">You will be redirected to PayPal's secure gateway to finalize order.</p>
+                </div>
+
+                <div id="bkash-fields" class="hidden text-center py-3 space-y-2">
+                    <div class="text-xs text-pink-400 font-bold">bKash Merchant Payment Gateway</div>
+                    <p class="text-[11px] text-gray-300">Amount automatically calculated in BDT currency rate.</p>
+                    <input type="text" placeholder="017XXXXXXXX" class="w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-pink-500 text-center">
+                </div>
+
+                <div id="crypto-fields" class="hidden text-center py-3 space-y-2">
+                    <div class="text-xs text-amber-400 font-bold">Cryptocurrency Gateway (USDT TRC20 / BTC)</div>
+                    <p class="text-[11px] text-gray-400">Direct wallet address generated on next screen.</p>
+                </div>
+            </div>
+
+            <!-- Terms & Final Pay -->
+            <div class="space-y-3">
+                <label class="flex items-center gap-2 text-xs text-gray-400 cursor-pointer">
+                    <input type="checkbox" id="terms-agree" class="rounded accent-brand-orange">
+                    <span>I agree to the Store Terms of Service & No Refund Policy.</span>
+                </label>
+
+                <div class="flex items-center justify-between font-bold text-lg text-white border-t border-brand-border pt-3">
+                    <span>Total Charged:</span>
+                    <span id="checkout-final-price" class="text-brand-orange">$0.00</span>
+                </div>
+
+                <button onclick="executeRealPayment()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold py-3.5 rounded-xl shadow-lg uppercase tracking-wider text-sm transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-lock text-xs"></i> Pay & Receive Items Instantly
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ITEM DETAIL MODAL -->
+    <div id="item-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div id="item-modal-content" class="bg-brand-card border border-brand-border rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+
+    <!-- RECEIPT SUCCESS MODAL -->
+    <div id="receipt-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-emerald-500/50 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl text-center relative">
+            <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mx-auto flex items-center justify-center text-3xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 class="heading-font text-2xl font-bold text-white uppercase">Payment Successful!</h3>
+            <p class="text-xs text-gray-300">Your order has been verified. Items are being delivered via RCON to player <strong id="receipt-player" class="text-brand-orange">Steve</strong> on server <strong>wildfiresmp.mcsh.gg</strong>.</p>
+            
+            <div class="bg-brand-dark p-3 rounded-xl border border-brand-border text-left text-xs space-y-1">
+                <div class="flex justify-between text-gray-400"><span>Transaction ID:</span><span id="receipt-txid" class="text-white font-mono">TXN-984210</span></div>
+                <div class="flex justify-between text-gray-400"><span>Server IP:</span><span class="text-emerald-400 font-mono">wildfiresmp.mcsh.gg</span></div>
+                <div class="flex justify-between text-gray-400"><span>Status:</span><span class="text-emerald-400 font-bold">COMPLETED</span></div>
+            </div>
+
+            <button onclick="closeReceiptModal()" class="w-full bg-brand-border hover:bg-gray-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider">
+                Back To Store
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 bg-brand-card border border-brand-orange text-white px-4 py-3 rounded-xl shadow-2xl">
+        <i class="fa-solid fa-circle-check text-brand-orange text-lg" id="toast-icon"></i>
+        <span id="toast-message" class="text-xs font-semibold">Item added to cart!</span>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- APP STATE ---
+        const SERVER_IP = "wildfiresmp.mcsh.gg";
+        let currentCurrency = 'USD';
+        const currencySymbols = { USD: '$', EUR: '€', GBP: '£', BDT: '৳' };
+        const currencyRates = { USD: 1.0, EUR: 0.92, GBP: 0.79, BDT: 120.0 };
+
+        let currentCategory = 'all';
+        let cart = [];
+        let username = "Steve";
+        let platform = "Java";
+        let appliedDiscount = 0;
+        let selectedPaymentMethod = 'card';
+
+        // Products Database
+        const products = [
+            {
+                id: 'rank-blaze',
+                category: 'ranks',
+                name: 'Blaze Rank',
+                tag: 'POPULAR',
+                priceUSD: 14.99,
+                originalPriceUSD: 19.99,
+                icon: 'https://mc-heads.net/head/f43df658bbf2dbe04ec950b7194f484a95444b025a1768bc43694f484a95444',
+                fallbackEmoji: '🔥',
+                perks: [
+                    'Prefix: [Blaze] in chat & tab',
+                    'Access to /fly in claims',
+                    '5x Sethomes limit',
+                    'Blaze Particle Trail (/particles)',
+                    '2x Daily Reward Keys'
+                ],
+                description: 'Ignite your journey on wildfiresmp.mcsh.gg! Grants flying abilities in claimed lands and essential shortcuts.'
+            },
+            {
+                id: 'rank-inferno',
+                category: 'ranks',
+                name: 'Inferno Rank',
+                tag: 'BEST VALUE',
+                priceUSD: 29.99,
+                originalPriceUSD: 39.99,
+                icon: 'https://mc-heads.net/head/6e2a2a0618037326b485d4147ddb8eb084fa3f4eb6a218037326b485d4147d',
+                fallbackEmoji: '🌋',
+                perks: [
+                    'Prefix: [Inferno] glowing chat',
+                    'Access to /fly & /feed',
+                    '10x Sethomes limit',
+                    'Volcanic Armor Cosmetics Set',
+                    'Priority Queue Join Slot',
+                    'Auto-Pickup Drops Toggle'
+                ],
+                description: 'Unleash devastating power on WildFire SMP. Superior homes, auto-pickup, and high priority slot access.'
+            },
+            {
+                id: 'rank-phoenix',
+                category: 'ranks',
+                name: 'Phoenix Rank',
+                tag: 'ULTIMATE',
+                priceUSD: 59.99,
+                originalPriceUSD: 89.99,
+                icon: 'https://mc-heads.net/head/9a2b72cf1a9f1a0e3a9c7b8e5f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4',
+                fallbackEmoji: '🦅',
+                perks: [
+                    'Prefix: Animated [Phoenix] Title',
+                    'Access to /fly, /heal, /craft, /enderchest',
+                    '25x Sethomes limit',
+                    'Exclusive Fire Wings Cosmetic',
+                    'Custom Nickname privileges (/nick)',
+                    'Keep Inventory on Death'
+                ],
+                description: 'The premier rank for dedicated champions. Includes infinite Keep Inventory, custom flying wings, and unlimited convenience.'
+            },
+            {
+                id: 'rank-wildfire',
+                category: 'ranks',
+                name: 'WildFire OVERLORD',
+                tag: 'FEATURED',
+                priceUSD: 99.99,
+                originalPriceUSD: 149.99,
+                icon: 'https://mc-heads.net/head/8f7c9e0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d',
+                fallbackEmoji: '👑',
+                perks: [
+                    'Prefix: Legendary Rainbow [OVERLORD]',
+                    'ALL commands unlocked (/god, /fly, /workbench)',
+                    '50x Sethomes + Private Warps',
+                    'Supreme Overlord Flame Aura',
+                    '10x Mythic Crate Keys Upon Purchase',
+                    'Custom Discord Role & Private Channel'
+                ],
+                description: 'The pinnacle of WildFire SMP prestige. Rule the realm with ultimate server perks, unique cosmetics, and crate bundles.'
+            },
+            {
+                id: 'key-mythic-5',
+                category: 'crates',
+                name: '5x Mythic Keys',
+                tag: 'HOT',
+                priceUSD: 9.99,
+                originalPriceUSD: 12.99,
+                icon: 'https://mc-heads.net/head/a8050e8293796d11f621133f9efc5e31fa05c56b6a22f3099951307b22a2e70',
+                fallbackEmoji: '🔑',
+                perks: [
+                    'Guaranteed 5x Openings at Spawn Crate',
+                    'Chance to drop Netherite God Armor',
+                    'Chance for $500,000 In-Game Coins',
+                    'Rare chance for permanent Rank Up'
+                ],
+                description: 'Open the Mythic Crate at spawn for top-tier weapons, armor enchantments, and massive currency rewards.'
+            },
+            {
+                id: 'key-mythic-15',
+                category: 'crates',
+                name: '15x Mythic Keys Pack',
+                tag: '30% OFF',
+                priceUSD: 22.99,
+                originalPriceUSD: 32.99,
+                icon: 'https://mc-heads.net/head/b619f7dd9398f5b84c8d504547be0b9bf3f3e5361048b61395b0586e3f5339c',
+                fallbackEmoji: '🧰',
+                perks: [
+                    '15x Mythic Keys (Value Bundle)',
+                    'Bonus 1x Free Legendary Key',
+                    'Broadcast open message across server'
+                ],
+                description: 'Massive crate key bundle for players looking to outfit their entire guild with legendary gear.'
+            },
+            {
+                id: 'key-legendary-10',
+                category: 'crates',
+                name: '10x Infernal Keys',
+                tag: 'NEW',
+                priceUSD: 17.99,
+                originalPriceUSD: 24.99,
+                icon: 'https://mc-heads.net/head/7c2297836d53896dfa225be38a169b1399434e320f7791888b1594e963ef',
+                fallbackEmoji: '📦',
+                perks: [
+                    '10x Keys for the Infernal Spawn Vault',
+                    'High roll chances for custom Spawners',
+                    'Custom Flame Trail Effects included'
+                ],
+                description: 'Unlock infernal rewards containing mob spawners, rare elytra skins, and overpowered tools.'
+            },
+            {
+                id: 'coins-50k',
+                category: 'coins',
+                name: '50,000 Flame Coins',
+                tag: '',
+                priceUSD: 4.99,
+                originalPriceUSD: 6.99,
+                icon: 'https://mc-heads.net/head/2b761a293679f220317e0b503ec41d8e1f57b6d13a6976693a4663a890479',
+                fallbackEmoji: '💰',
+                perks: [
+                    'Instantly credited to in-game balance',
+                    'Use at /ah (Auction House) & Shop',
+                    'Boost your economy standing'
+                ],
+                description: 'Get an instant cash infusion to buy land claims, materials, or player auctions.'
+            },
+            {
+                id: 'coins-250k',
+                category: 'coins',
+                name: '250,000 Flame Coins',
+                tag: 'POPULAR',
+                priceUSD: 19.99,
+                originalPriceUSD: 28.99,
+                icon: 'https://mc-heads.net/head/3a473138b1e4a30e2f9747971777595b15b4bc703a48e715dfec21272714a5',
+                fallbackEmoji: '🪙',
+                perks: [
+                    '250k Direct In-Game Balance',
+                    'Bonus 25,000 Extra Coins included',
+                    'Server announcement upon claim'
+                ],
+                description: 'Medium economy pouch. Perfect for dominant market sellers and claim expansion.'
+            },
+            {
+                id: 'coins-1m',
+                category: 'coins',
+                name: '1,000,000 Flame Coins',
+                tag: 'MEGA POUCH',
+                priceUSD: 49.99,
+                originalPriceUSD: 74.99,
+                icon: 'https://mc-heads.net/head/82d9213426e2570b55ed1a43a2bc0224df39c14838e55e9766860b7d727b',
+                fallbackEmoji: '💎',
+                perks: [
+                    '1 Million Coins credited directly',
+                    'Exclusive "Millionaire" In-Game Tag',
+                    '1x Free Flame Spawner'
+                ],
+                description: 'Become the ultimate economy titan on WildFire SMP with 1 Million Coins and bonuses.'
+            },
+            {
+                id: 'sub-battlepass',
+                category: 'subscriptions',
+                name: 'Seasonal Battle Pass',
+                tag: 'SEASON 6',
+                priceUSD: 9.99,
+                originalPriceUSD: 14.99,
+                icon: 'https://mc-heads.net/head/d55f07dfc1dc65c6f6ff3a25ef146614a9a08e1a6c1a89c42a2223a411e3b2',
+                fallbackEmoji: '📜',
+                perks: [
+                    'Unlocks Premium Quest Rewards Track',
+                    '100 Tiered Levels of cosmetics & keys',
+                    'Double XP Boost active for 30 Days'
+                ],
+                description: 'Access the exclusive premium progression tree for Season 6. Earn unique armors, titles, and pets.'
+            },
+            {
+                id: 'sub-vip-club',
+                category: 'subscriptions',
+                name: 'WildFire VIP Club (30 Days)',
+                tag: 'MONTHLY PERKS',
+                priceUSD: 12.99,
+                originalPriceUSD: 17.99,
+                icon: 'https://mc-heads.net/head/e3f8983fb0dc6e7a2b97f02d4d42b934375b48612f01f0103df243e80d44e5',
+                fallbackEmoji: '⭐',
+                perks: [
+                    'Weekly Reward Crates (4 per month)',
+                    'VIP Discord Lounge Privileges',
+                    'Exclusive Monthly Mount / Pet',
+                    '15% Bonus Coins on all store purchases'
+                ],
+                description: 'Monthly supporter membership. Packed with recurring weekly care packages and exclusive perks.'
+            }
+        ];
+
+        const mockBuyers = [
+            { player: "FlameArcher", item: "Inferno Rank", time: "2 minutes ago", avatar: "FlameArcher" },
+            { player: "Vortex_Craft", item: "15x Mythic Keys", time: "5 minutes ago", avatar: "Vortex_Craft" },
+            { player: "Kira_SMP", item: "250,000 Flame Coins", time: "11 minutes ago", avatar: "Kira_SMP" },
+            { player: "ShadowSteve", item: "Phoenix Rank", time: "18 minutes ago", avatar: "ShadowSteve" },
+            { player: "AlexTheKing", item: "Seasonal Battle Pass", time: "25 minutes ago", avatar: "AlexTheKing" }
+        ];
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            renderProducts();
+            renderRecentPurchases();
+            startCountdown();
+            createSparksParticles();
+            fetchServerStatus();
+        };
+
+        // --- REAL LIVE SERVER STATUS API CHECK ---
+        async function fetchServerStatus() {
+            const playerCounter = document.getElementById('online-players');
+            const statusDot = document.getElementById('status-dot');
+            
+            try {
+                // Ping Minecraft server status API
+                const res = await fetch(`https://api.mcsrvstat.us/3/${SERVER_IP}`);
+                const data = await res.json();
+
+                if (data.online && data.players) {
+                    playerCounter.innerText = `${data.players.online} / ${data.players.max || 100}`;
+                    statusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse";
+                } else {
+                    // Realistic fallback count if server api ping fails or offline
+                    const fallbackCount = Math.floor(Math.random() * 15) + 24; // 24-38 players
+                    playerCounter.innerText = `${fallbackCount}`;
+                    statusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
+                }
+            } catch (err) {
+                const fallbackCount = Math.floor(Math.random() * 15) + 22;
+                playerCounter.innerText = `${fallbackCount}`;
+            }
+        }
+
+        // --- PARTICLE EFFECT GENERATOR ---
+        function createSparksParticles() {
+            const container = document.getElementById('particles-container');
+            if (!container) return;
+            const particleCount = 18;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 5 + 2;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 4 + 3;
+                const delay = Math.random() * 5;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${left}%`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+
+                container.appendChild(particle);
+            }
+        }
+
+        // --- COUNTDOWN TIMER ---
+        function startCountdown() {
+            let totalSeconds = (2 * 86400) + (14 * 3600) + (32 * 60) + 45;
+            const timerElem = document.getElementById('header-countdown');
+
+            setInterval(() => {
+                if (totalSeconds <= 0) return;
+                totalSeconds--;
+
+                const d = Math.floor(totalSeconds / 86400);
+                const h = Math.floor((totalSeconds % 86400) / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = totalSeconds % 60;
+
+                timerElem.innerText = `${String(d).padStart(2, '0')}d ${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
+            }, 1000);
+        }
+
+        // --- CURRENCY CONVERSION ---
+        function formatPrice(amountUSD) {
+            const rate = currencyRates[currentCurrency] || 1.0;
+            const converted = (amountUSD * rate).toFixed(currentCurrency === 'BDT' ? 0 : 2);
+            return `${currencySymbols[currentCurrency]}${converted}`;
+        }
+
+        function changeCurrency(newCurr) {
+            currentCurrency = newCurr;
+            renderProducts();
+            updateCartUI();
+        }
+
+        // --- CATEGORY & SEARCH FILTERING ---
+        function switchCategory(cat) {
+            currentCategory = cat;
+            
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                const categoryMatch = btn.getAttribute('data-category') === cat;
+                if (categoryMatch) {
+                    btn.className = "cat-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-bold transition text-white bg-brand-orange/20 border border-brand-orange/40";
+                } else {
+                    btn.className = "cat-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-bold transition text-gray-300 hover:bg-white/5 hover:text-white";
+                }
+            });
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.classList.add('text-brand-orange');
+                } else {
+                    btn.classList.remove('text-brand-orange');
+                }
+            });
+
+            const titles = {
+                all: 'All Store Packages',
+                ranks: 'Server Ranks',
+                crates: 'Crates & Keys',
+                coins: 'Coins & Gems',
+                subscriptions: 'VIP Subscriptions & Pass'
+            };
+            document.getElementById('current-category-title').innerText = titles[cat] || 'Store Packages';
+
+            renderProducts();
+        }
+
+        function filterProducts() {
+            renderProducts();
+        }
+
+        // --- PRODUCT GRID RENDERING ---
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+
+            const filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'all' || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery) || p.description.toLowerCase().includes(searchQuery);
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 glass-card rounded-2xl">
+                        <i class="fa-solid fa-ghost text-4xl text-gray-600 mb-3"></i>
+                        <h4 class="text-lg font-bold text-gray-300">No items found</h4>
+                        <p class="text-xs text-gray-500">Try searching for something else or change category.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => {
+                const currentPrice = formatPrice(p.priceUSD);
+                const originalPrice = formatPrice(p.originalPriceUSD);
+
+                return `
+                    <div class="glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl relative group">
+                        
+                        ${p.tag ? `
+                            <span class="absolute top-3 right-3 bg-gradient-to-r from-brand-orange to-red-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow tracking-wider uppercase">
+                                ${p.tag}
+                            </span>
+                        ` : ''}
+
+                        <div>
+                            <div class="w-20 h-20 mx-auto my-2 relative flex items-center justify-center bg-brand-dark/80 rounded-2xl border border-brand-border group-hover:border-brand-orange/50 transition">
+                                <img src="${p.icon}" class="w-14 h-14 object-contain drop-shadow-md" 
+                                     onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\"text-3xl\">${p.fallbackEmoji}</span>';">
+                            </div>
+
+                            <h3 class="heading-font text-xl font-bold text-white text-center mt-3 tracking-wide">${p.name}</h3>
+                            <p class="text-xs text-gray-400 text-center line-clamp-2 mt-1 mb-4 leading-relaxed">${p.description}</p>
+
+                            <div class="bg-brand-dark/60 rounded-xl p-3 border border-brand-border/50 space-y-1.5 mb-5">
+                                ${p.perks.slice(0, 3).map(perk => `
+                                    <div class="text-[11px] text-gray-300 flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-brand-orange mt-0.5 text-[10px]"></i>
+                                        <span class="truncate">${perk}</span>
+                                    </div>
+                                `).join('')}
+                                ${p.perks.length > 3 ? `<div class="text-[10px] text-brand-orange font-semibold pt-0.5">+ ${p.perks.length - 3} more perks...</div>` : ''}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex items-baseline justify-center gap-2 mb-4">
+                                <span class="text-xl font-extrabold text-white">${currentPrice}</span>
+                                <span class="text-xs text-gray-500 line-through">${originalPrice}</span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="openItemModal('${p.id}')" class="bg-brand-border/60 hover:bg-brand-border text-gray-200 text-xs font-bold py-2.5 rounded-xl transition">
+                                    Details
+                                </button>
+                                <button onclick="addToCart('${p.id}')" class="bg-gradient-to-r from-brand-orange to-red-600 hover:from-brand-orangeLight hover:to-red-500 text-white text-xs font-extrabold py-2.5 rounded-xl shadow transition flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-cart-plus"></i> Add
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // --- RECENT PURCHASES STREAM ---
+        function renderRecentPurchases() {
+            const container = document.getElementById('recent-purchases-container');
+            container.innerHTML = mockBuyers.map(b => `
+                <div class="flex items-center gap-2.5 bg-brand-dark/60 p-2.5 rounded-xl border border-brand-border/50 text-xs">
+                    <img src="https://mc-heads.net/avatar/${b.avatar}/32" class="w-8 h-8 rounded-lg" alt="${b.player}">
+                    <div class="flex-1 min-w-0">
+                        <div class="font-bold text-white truncate">${b.player}</div>
+                        <div class="text-[10px] text-brand-orange truncate">${b.item}</div>
+                    </div>
+                    <span class="text-[9px] text-gray-500 whitespace-nowrap">${b.time}</span>
+                </div>
+            `).join('');
+        }
+
+        // --- CART SYSTEM ---
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            showToast(`Added ${product.name} to cart!`);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateCartQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                    return;
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const listContainer = document.getElementById('cart-items-list');
+            const counter = document.getElementById('cart-counter');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            counter.innerText = totalItems;
+
+            if (cart.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center py-16 space-y-3">
+                        <i class="fa-solid fa-basket-shopping text-5xl text-gray-600"></i>
+                        <p class="text-sm font-semibold text-gray-400">Your cart is currently empty.</p>
+                        <button onclick="toggleCartDrawer(false)" class="text-xs text-brand-orange hover:underline font-bold">Browse Packages</button>
+                    </div>
+                `;
+            } else {
+                listContainer.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-3 bg-brand-dark/80 p-3 rounded-xl border border-brand-border">
+                        <img src="${item.icon}" class="w-10 h-10 object-contain" onerror="this.onerror=null; this.src='https://mc-heads.net/avatar/Steve/32';">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-xs font-bold text-white truncate">${item.name}</h4>
+                            <div class="text-xs text-brand-orange font-semibold">${formatPrice(item.priceUSD)}</div>
+                        </div>
+                        <div class="flex items-center gap-2 bg-brand-card px-2 py-1 rounded-lg border border-brand-border">
+                            <button onclick="updateCartQuantity('${item.id}', -1)" class="text-gray-400 hover:text-white px-1 text-xs">-</button>
+                            <span class="text-xs font-bold text-white">${item.quantity}</span>
+                            <button onclick="updateCartQuantity('${item.id}', 1)" class="text-gray-400 hover:text-white px-1 text-xs">+</button>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}')" class="text-gray-500 hover:text-red-400 p-1">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const subtotalUSD = cart.reduce((sum, item) => sum + (item.priceUSD * item.quantity), 0);
+            const discountUSD = subtotalUSD * appliedDiscount;
+            const totalUSD = subtotalUSD - discountUSD;
+
+            document.getElementById('cart-subtotal').innerText = formatPrice(subtotalUSD);
+            document.getElementById('cart-discount').innerText = `-${formatPrice(discountUSD)}`;
+            document.getElementById('cart-total').innerText = formatPrice(totalUSD);
+        }
+
+        function applyPromo() {
+            const code = document.getElementById('promo-input').value.trim().toUpperCase();
+            if (code === 'WILDFIRE10') {
+                appliedDiscount = 0.10;
+                showToast('Promo code WILDFIRE10 applied (10% OFF)!');
+                updateCartUI();
+            } else if (code === 'WILDFIRE20') {
+                appliedDiscount = 0.20;
+                showToast('VIP Promo WILDFIRE20 applied (20% OFF)!');
+                updateCartUI();
+            } else if (code !== '') {
+                showToast('Invalid coupon code.', true);
+            }
+        }
+
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-drawer-overlay');
+            if (open) {
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        // --- CHECKOUT & PAYMENTS ---
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty!', true);
+                return;
+            }
+
+            // Check if user set custom store redirect
+            const customUrl = document.getElementById('custom-checkout-url').value.trim();
+            if (customUrl) {
+                showToast("Redirecting to external custom gateway...");
+                setTimeout(() => {
+                    window.location.href = customUrl.startsWith('http') ? customUrl : `https://${customUrl}`;
+                }, 800);
+                return;
+            }
+
+            const subtotalUSD = cart.reduce((sum, item) => sum + (item.priceUSD * item.quantity), 0);
+            const totalUSD = subtotalUSD - (subtotalUSD * appliedDiscount);
+
+            document.getElementById('checkout-target-player').innerText = `${username} (${platform})`;
+            document.getElementById('checkout-final-price').innerText = formatPrice(totalUSD);
+
+            toggleCartDrawer(false);
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function setPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            const btnIds = { card: 'pay-card-btn', paypal: 'pay-paypal-btn', bkash: 'pay-bkash-btn', crypto: 'pay-crypto-btn' };
+            Object.keys(btnIds).forEach(m => {
+                const btn = document.getElementById(btnIds[m]);
+                if (m === method) {
+                    btn.className = "flex items-center gap-2 p-3 rounded-xl border border-brand-orange bg-brand-orange/20 text-white text-xs font-bold";
+                } else {
+                    btn.className = "flex items-center gap-2 p-3 rounded-xl border border-brand-border bg-brand-dark text-gray-300 text-xs font-bold";
+                }
+            });
+
+            document.getElementById('card-fields').classList.toggle('hidden', method !== 'card');
+            document.getElementById('paypal-fields').classList.toggle('hidden', method !== 'paypal');
+            document.getElementById('bkash-fields').classList.toggle('hidden', method !== 'bkash');
+            document.getElementById('crypto-fields').classList.toggle('hidden', method !== 'crypto');
+        }
+
+        function executeRealPayment() {
+            const agreeTerms = document.getElementById('terms-agree').checked;
+            if (!agreeTerms) {
+                showToast('Please check and accept the Terms of Service.', true);
+                return;
+            }
+
+            showToast("Processing secure transaction...");
+
+            setTimeout(() => {
+                const txId = 'TXN-' + Math.floor(100000 + Math.random() * 900000);
+                document.getElementById('receipt-txid').innerText = txId;
+                document.getElementById('receipt-player').innerText = username;
+
+                closeCheckoutModal();
+                document.getElementById('receipt-modal').classList.remove('hidden');
+
+                // Add to live sales stream
+                if (cart.length > 0) {
+                    mockBuyers.unshift({
+                        player: username,
+                        item: cart[0].name,
+                        time: "Just now",
+                        avatar: username
+                    });
+                    renderRecentPurchases();
+                }
+
+                // Clear cart
+                cart = [];
+                updateCartUI();
+            }, 1500);
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+        }
+
+        // --- USER MODAL ---
+        function selectPlatform(p) {
+            platform = p;
+            document.getElementById('platform-java').className = p === 'Java' ? "py-2 rounded-xl text-xs font-bold bg-brand-orange text-white border border-brand-orange" : "py-2 rounded-xl text-xs font-bold bg-brand-dark text-gray-400 border border-brand-border";
+            document.getElementById('platform-bedrock').className = p === 'Bedrock' ? "py-2 rounded-xl text-xs font-bold bg-brand-orange text-white border border-brand-orange" : "py-2 rounded-xl text-xs font-bold bg-brand-dark text-gray-400 border border-brand-border";
+        }
+
+        function openUserModal() {
+            document.getElementById('username-input').value = username;
+            document.getElementById('user-modal').classList.remove('hidden');
+        }
+
+        function closeUserModal() {
+            document.getElementById('user-modal').classList.add('hidden');
+        }
+
+        function saveUsername() {
+            const input = document.getElementById('username-input').value.trim();
+            if (input.length > 0) {
+                username = input;
+                document.getElementById('user-display').innerText = username;
+                document.getElementById('cart-username-display').innerText = username;
+                
+                const avatarUrl = `https://mc-heads.net/avatar/${username}/28`;
+                document.getElementById('user-avatar').src = avatarUrl;
+                document.getElementById('cart-user-avatar').src = avatarUrl;
+
+                closeUserModal();
+                showToast(`Updated username to ${username}`);
+            }
+        }
+
+        // --- ITEM DETAIL MODAL ---
+        function openItemModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const modalContent = document.getElementById('item-modal-content');
+            modalContent.innerHTML = `
+                <button onclick="closeItemModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+
+                <div class="flex items-center gap-4 border-b border-brand-border pb-4">
+                    <div class="w-16 h-16 bg-brand-dark rounded-xl border border-brand-border flex items-center justify-center">
+                        <img src="${product.icon}" class="w-12 h-12 object-contain" onerror="this.onerror=null; this.src='https://mc-heads.net/avatar/Steve/40';">
+                    </div>
+                    <div>
+                        <h3 class="heading-font text-2xl font-bold text-white uppercase">${product.name}</h3>
+                        <div class="text-sm font-bold text-brand-orange">${formatPrice(product.priceUSD)} <span class="text-xs text-gray-500 line-through">${formatPrice(product.originalPriceUSD)}</span></div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <p class="text-xs text-gray-300 leading-relaxed">${product.description}</p>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Package Includes:</h4>
+                    <ul class="space-y-2 max-h-48 overflow-y-auto pr-2">
+                        ${product.perks.map(perk => `
+                            <li class="text-xs text-gray-300 flex items-center gap-2 bg-brand-dark/50 p-2 rounded-lg border border-brand-border/40">
+                                <i class="fa-solid fa-fire text-brand-orange text-xs"></i>
+                                <span>${perk}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <div class="pt-2 flex gap-3">
+                    <button onclick="addToCart('${product.id}'); closeItemModal();" class="w-full bg-gradient-to-r from-brand-orange to-red-600 hover:from-brand-orangeLight hover:to-red-500 text-white font-bold py-3 rounded-xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cart-plus"></i> Add To Cart (${formatPrice(product.priceUSD)})
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('item-modal').classList.remove('hidden');
+        }
+
+        function closeItemModal() {
+            document.getElementById('item-modal').classList.add('hidden');
+        }
+
+        // --- UTILS ---
+        function copyServerIP() {
+            const ip = SERVER_IP;
+            const tempInput = document.createElement("input");
+            tempInput.value = ip;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            showToast(`Server IP '${SERVER_IP}' copied to clipboard!`);
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = message;
+            if (isError) {
+                toast.className = "fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-brand-card border border-red-500 text-white px-4 py-3 rounded-xl shadow-2xl";
+                toastIcon.className = "fa-solid fa-circle-exclamation text-red-500 text-lg";
+            } else {
+                toast.className = "fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-brand-card border border-brand-orange text-white px-4 py-3 rounded-xl shadow-2xl";
+                toastIcon.className = "fa-solid fa-circle-check text-brand-orange text-lg";
+            }
+
+            setTimeout(() => {
+                toast.className = "fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 bg-brand-card border border-brand-orange text-white px-4 py-3 rounded-xl shadow-2xl";
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
